@@ -25,3 +25,8 @@ def add_maintenance(request):
         form = MaintenanceForm()
 
     return render(request, 'records/add_maintenance.html', {'form': form})
+
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'index.html')

@@ -5,5 +5,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('records.urls')),
+    path('', include('records.urls')),  # Ana sayfa dahil her şeyi records uygulamasına devrettik
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
