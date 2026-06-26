@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -133,3 +134,5 @@ JAZZMIN_SETTINGS = {
     "copyright": "oto_dijital_defter © 2026",
     "show_ui_builder": False, # Burası True olursa paneli renklendirme ayarları açılır
 }
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
