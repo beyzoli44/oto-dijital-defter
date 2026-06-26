@@ -16,15 +16,16 @@ def index(request):
     return render(request, 'index.html', {'vehicle': vehicle, 'plaka': plaka})
 
 
-def vehicle_detail(request, vehicle_id):
-    # Bu fonksiyon hem linkten gelen ID ile hem de yönlendirmeyle çalışır
-    vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+def vehicle_detail(request, vehicle_id=None): # vehicle_id boş gelebilir
+    if vehicle_id:
+        vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+    else:
+        # Eğer ID yoksa, plaka ile ara
+        plaka = request.GET.get('plaka')
+        vehicle = get_object_or_404(Vehicle, plate=plaka) # Modelindeki field adı 'plate' mi 'plaka' mı? 'plate' ise böyle kalsın.
+
     maintenances = vehicle.maintenances.all().order_by('-date')
-    context = {
-        'vehicle': vehicle,
-        'maintenances': maintenances,
-    }
-    return render(request, 'records/vehicle_detail.html', context)
+    return render(request, 'records/vehicle_detail.html', {'vehicle': vehicle, 'maintenances': maintenances})
 
 
 def add_maintenance(request):
