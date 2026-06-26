@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html>
-<body>
-    <h1>Araç Dijital Defter</h1>
-    <form action="/arac/" method="GET">
-        <input type="text" name="plaka" placeholder="Plaka veya Kod Giriniz...">
-        <button type="submit">Sorgula</button>
-    </form>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Araç Dijital Defter</title>
+    <!-- Şıklık için Bootstrap ekliyoruz -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <h1 class="mb-4">🚗 Araç Dijital Defter</h1>
+                <p class="text-muted">Araçlarınızın dijital kimliği artık cebinizde.</p>
+
+                <div class="card p-4 shadow-sm">
+                    <form action="/arac/" method="GET">
+                        <div class="mb-3">
+                            <input type="text" name="plaka" class="form-control" placeholder="Plaka veya Kod Giriniz..." required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Sorgula</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
