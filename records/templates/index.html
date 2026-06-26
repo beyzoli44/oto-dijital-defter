@@ -20,6 +20,7 @@
             <div class="col-md-5 text-center">
                 <h1 class="mb-3">🚗 Araç Dijital Defter</h1>
                 <p class="mb-4 text-white-50">Araçlarınızın dijital kimliği artık cebinizde.</p>
+
                 <div class="card p-4 shadow-lg">
                     <form action="/arac/" method="GET">
                         <div class="mb-3">
@@ -27,6 +28,12 @@
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg w-100">Sorgula</button>
                     </form>
+
+                    {% if error %}
+                        <div class="alert alert-danger mt-3 mb-0" style="color: #842029; background-color: #f8d7da; border-color: #f5c2c7; border-radius: 10px;">
+                            {{ error }}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

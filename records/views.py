@@ -6,26 +6,28 @@ from .forms import MaintenanceForm
 def index(request):
     # Ana sayfa: Arama kutusundan gelen 'plaka' sorgusunu yakalar
     plaka = request.GET.get('plaka')
-    vehicle = None
+    error = None
+
     if plaka:
-        vehicle = Vehicle.objects.filter(plaka=plaka).first()
-        # Eğer araç bulunursa doğrudan detay sayfasına yönlendirebiliriz
+        vehicle = Vehicle.objects.filter(plate=plaka).first()
         if vehicle:
             return redirect('vehicle_detail', vehicle_id=vehicle.id)
+        else:
+            error = "Bu plakaya ait kayıt bulunamadı!"
 
-    return render(request, 'index.html', {'vehicle': vehicle, 'plaka': plaka})
+    return render(request, 'index.html', {'error': error, 'plaka': plaka})
 
 
-def vehicle_detail(request, vehicle_id=None): # vehicle_id boş gelebilir
-    if vehicle_id:
-        vehicle = get_object_or_404(Vehicle, id=vehicle_id)
-    else:
-        # Eğer ID yoksa, plaka ile ara
-        plaka = request.GET.get('plaka')
-        vehicle = get_object_or_404(Vehicle, plate=plaka) # Modelindeki field adı 'plate' mi 'plaka' mı? 'plate' ise böyle kalsın.
-
+def vehicle_detail(request, vehicle_id):
+    # Bu fonksiyon artık sadece ID ile çalışacak, çünkü plaka sorgusunu index'te çözdük
+    vehicle = get_object_or_404(Vehicle, id=vehicle_id)
     maintenances = vehicle.maintenances.all().order_by('-date')
-    return render(request, 'records/vehicle_detail.html', {'vehicle': vehicle, 'maintenances': maintenances})
+
+    context = {
+        'vehicle': vehicle,
+        'maintenances': maintenances,
+    }
+    return render(request, 'records/vehicle_detail.html', context)
 
 
 def add_maintenance(request):
