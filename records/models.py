@@ -16,13 +16,13 @@ class Vehicle(models.Model):
         return f"{self.plate} - {self.brand_model}"
 
     def save(self, *args, **kwargs):
+        # 1. Önce aracı kaydet ki bir ID oluşsun
         super().save(*args, **kwargs)
 
+        # 2. Eğer QR kod yoksa oluştur
         if not self.qr_code:
-            # KRİTİK DÜZELTME: Sunucunun gerçek adresi!
             qr_url = f"https://otodijitaldefter.pythonanywhere.com/arac/{self.id}/"
 
-            # Daha sade ve okunabilir QR için ayarlar
             qr = qrcode.QRCode(
                 version=1,
                 error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -35,11 +35,13 @@ class Vehicle(models.Model):
 
             canvas = BytesIO()
             qr_image.save(canvas, format='PNG')
-            canvas.seek(0)
 
             file_name = f'arac_{self.id}_qr.png'
+            # Save metodunu tekrar çağırmadan dosyayı kaydet
             self.qr_code.save(file_name, File(canvas), save=False)
-            super().save(*args, **kwargs)
+
+            # Sadece bir kere güncelleme yap
+            super().save(update_fields=['qr_code'])
 
 
 class Maintenance(models.Model):
