@@ -3,7 +3,6 @@ import qrcode
 from io import BytesIO
 from django.core.files import File
 
-
 class Vehicle(models.Model):
     plate = models.CharField(max_length=20, verbose_name="Plaka")
     motor_no = models.CharField(max_length=50, verbose_name="Motor No")
@@ -21,6 +20,7 @@ class Vehicle(models.Model):
 
         # 2. Eğer QR kod yoksa oluştur
         if not self.qr_code:
+            # İŞTE TAM OLARAK DÜZELTİLEN SATIR BURASI
             qr_url = f"https://otodijitaldefter.pythonanywhere.com/arac/{self.id}/"
 
             qr = qrcode.QRCode(
@@ -42,7 +42,6 @@ class Vehicle(models.Model):
 
             # Sadece bir kere güncelleme yap
             super().save(update_fields=['qr_code'])
-
 
 class Maintenance(models.Model):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='maintenances', verbose_name="Araç")
