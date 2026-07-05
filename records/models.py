@@ -38,10 +38,10 @@ class Vehicle(models.Model):
             combined_img = Image.new('RGB', (width, new_height), 'white')
             combined_img.paste(qr_img, (0, 0))
 
-            # Yazıyı yaz
             draw = ImageDraw.Draw(combined_img)
-            draw.text((25, height + 15), "Polat Oto Tamir & Servis", fill="black")
 
+            draw.text((25, height + 10), "POLAT OTO TAMIR & SERVIS", fill="black", align="center")
+            draw.text((25, height + 11), "POLAT OTO TAMIR & SERVIS", fill="black", align="center")
             canvas = BytesIO()
             combined_img.save(canvas, format='PNG')
             canvas.seek(0)
