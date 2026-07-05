@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -12,17 +13,19 @@
         .card { border-radius: 20px; border: none; background: rgba(255, 255, 255, 0.95); }
         .btn-primary { background-color: #1e3c72; border: none; }
         .btn-primary:hover { background-color: #162a4d; }
+        .logo-img { max-width: 180px; margin-bottom: 10px; border-radius: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-5 text-center">
-                <h1 class="mb-3">🚗 Araç Dijital Defter</h1>
+
+                <img src="{% static 'images/polat_oto.png' %}" alt="Polat Oto Logo" class="logo-img">
+                <h2 class="mb-3">Polat Tamir & Bakım</h2>
                 <p class="mb-4 text-white-50">Araçlarınızın dijital kimliği artık cebinizde.</p>
 
                 <div class="card p-4 shadow-lg">
-                    <!-- Form action'ı boş bıraktık ki ana sayfa üzerinde işlem yapsın -->
                     <form action="" method="GET">
                         <div class="mb-3">
                             <input type="text" name="plaka" class="form-control form-control-lg" placeholder="Plaka veya Kod Giriniz..." required>
