@@ -2,10 +2,10 @@ from django.db import models
 import qrcode
 from io import BytesIO
 from django.core.files import File
+from PIL import Image, ImageDraw
 
 
 class Vehicle(models.Model):
-    # Sadece ihtiyaç duyulan alanlar kaldı
     plate = models.CharField(max_length=20, verbose_name="Plaka")
     brand_model = models.CharField(max_length=100, verbose_name="Marka ve Model")
     qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True, verbose_name="QR Kod")
@@ -21,6 +21,7 @@ class Vehicle(models.Model):
         if not self.qr_code:
             qr_url = f"https://otodijitaldefter.pythonanywhere.com/arac/{self.id}/"
 
+            # QR Kodu oluştur
             qr = qrcode.QRCode(
                 version=1,
                 error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -29,15 +30,24 @@ class Vehicle(models.Model):
             )
             qr.add_data(qr_url)
             qr.make(fit=True)
-            qr_image = qr.make_image(fill_color="black", back_color="white")
+            qr_img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+
+            # Resmin altına beyaz alan ekle (50px yükseklik verdik)
+            width, height = qr_img.size
+            new_height = height + 50
+            combined_img = Image.new('RGB', (width, new_height), 'white')
+            combined_img.paste(qr_img, (0, 0))
+
+            # Yazıyı yaz
+            draw = ImageDraw.Draw(combined_img)
+            draw.text((25, height + 15), "Polat Oto Tamir & Servis", fill="black")
 
             canvas = BytesIO()
-            qr_image.save(canvas, format='PNG')
+            combined_img.save(canvas, format='PNG')
+            canvas.seek(0)
 
             file_name = f'arac_{self.id}_qr.png'
             self.qr_code.save(file_name, File(canvas), save=False)
-
-            # Sadece QR kodu güncelleyerek kaydet
             super().save(update_fields=['qr_code'])
 
 
