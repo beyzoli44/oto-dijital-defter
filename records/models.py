@@ -40,8 +40,8 @@ class Vehicle(models.Model):
 
             draw = ImageDraw.Draw(combined_img)
 
-            draw.text((25, height + 10), "POLAT OTO TAMIR & SERVIS", fill="black", align="center")
-            draw.text((25, height + 11), "POLAT OTO TAMIR & SERVIS", fill="black", align="center")
+            draw.text((25, height + 10), "POLAT  OTO  TAMIR  &  SERVIS", fill="black", align="center")
+            draw.text((25, height + 11), "POLAT  OTO  TAMIR  &  SERVIS", fill="black", align="center")
             canvas = BytesIO()
             combined_img.save(canvas, format='PNG')
             canvas.seek(0)
